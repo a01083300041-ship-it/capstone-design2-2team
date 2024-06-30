@@ -1,0 +1,8 @@
+
+# secrets / build output
+web/build/
+web/.gradle/
+app/build/
+app/.gradle/
+**/firebaseKey.json
+**/google-services.json

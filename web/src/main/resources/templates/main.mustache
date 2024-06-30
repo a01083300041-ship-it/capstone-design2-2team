@@ -1,0 +1,89 @@
+<head>
+    <title>My Safe guard</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <style>
+        .home {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            position: relative; /* 부모 요소에 position: relative; 추가 */
+        }
+        .home .button-container {
+            display: flex;
+            justify-content: space-around;
+            width: 50%;
+            position: relative; /* 버튼 컨테이너에 position: relative; 추가 */
+        }
+        .home .button {
+            width: 45%;
+            padding: 20px;
+            font-size: 18px;
+            text-align: center;
+            color: white;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .home .button:hover {
+            background-color: #0056b3;
+        }
+        .raindrop {
+            position: absolute;
+            bottom: 100%;
+            width: 2px;
+            height: 10px;
+            background-color: #007BFF;
+            animation: fall linear infinite;
+        }
+        @keyframes fall {
+            to {
+                transform: translateY(100vh);
+            }
+        }
+        .date-display {
+            position: absolute;
+            top: -40px; /* 버튼 상단에 위치하도록 조정 */
+            left: 0;
+            right: 0;
+            text-align: center;
+        }
+    </style>
+</head>
+<body class="home">
+<div class="button-container">
+    <div class="date-display" id="dateDisplay"></div> <!-- 오늘 날짜를 출력할 요소 추가 -->
+    <button class="button" onclick="location.href='/rain'">강수량 정보</button>
+    <button class="button" onclick="location.href='/bridge'">침수다리 정보</button>
+</div>
+<script>
+    function createRaindrop() {
+        const raindrop = document.createElement('div');
+        raindrop.classList.add('raindrop');
+        raindrop.style.left = Math.random() * 100 + 'vw';
+        raindrop.style.animationDuration = Math.random() * 2 + 3 + 's';
+        document.body.appendChild(raindrop);
+        setTimeout(() => {
+            raindrop.remove();
+        }, 5000); // Remove raindrop after animation
+    }
+
+    setInterval(createRaindrop, 100); // Create a raindrop every 100ms
+
+    // 오늘 날짜를 가져와서 출력하는 함수
+    function displayTodayDate() {
+        const today = new Date();
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('dateDisplay').textContent = today.toLocaleDateString('ko-KR', options);
+    }
+
+    // 페이지 로드 시 오늘 날짜 출력
+    window.onload = function() {
+        displayTodayDate();
+    };
+</script>
+</body>

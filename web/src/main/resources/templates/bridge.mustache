@@ -1,0 +1,70 @@
+{{>layouts/header}}
+<head>
+    <title>Rain Data</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("searchForm").addEventListener("submit", function(event) {
+                // 폼 서브밋을 막습니다.
+                event.preventDefault();
+
+                // 폼 데이터를 가져옵니다.
+                var searchText = document.getElementById('searchInput').value;
+
+                // 검색어가 비어있는지 확인합니다.
+                if (!searchText) {
+                    alert("검색어를 입력해 주세요.");
+                    return;
+                }
+
+                // 날짜 형식을 확인합니다 (YYYY-MM-DD 형식).
+                var datePattern = /^\d{4}-\d{2}-\d{2}$/;
+                if (!datePattern.test(searchText)) {
+                    alert("날짜 형식이 맞지 않습니다. YYYY-MM-DD 형식으로 입력해 주세요.");
+                    return;
+                }
+
+                // 검색어를 포함한 URL로 리다이렉트합니다.
+                window.location.href = "/bridge?searchQuery=" + encodeURIComponent(searchText);
+            });
+        });
+    </script>
+</head>
+<body>
+<h1>침수 다리 정보</h1>
+<p style="color: gray; font-style: italic;">날짜별로 검색을 위해 예시)2024-05-26 형식에 맞게 검색해주세요</p>
+<form id="searchForm" action="/bridge" method="GET">
+    <label for="searchInput">날짜 검색:</label>
+    <input type="text" id="searchInput" name="searchQuery" />
+    <input type="submit" value="검색" />
+</form>
+<table border="2">
+    <tr>
+        <th>지역이름</th>
+        <th>상태 값</th>
+        <th>현재 상태</th>
+        <th>Level3 값</th>
+        <th>Level3 명칭</th>
+        <th>Level4 값</th>
+        <th>Level4 명칭</th>
+        <th>침수 값</th>
+        <th>측정시간</th>
+
+    </tr>
+    {{#bridge}}
+        <tr>
+            <td>{{siteName}}</td>
+            <td>{{sttus}}</td>
+            <td>{{sttusNm}}</td>
+            <td>{{alertLevel3}}</td>
+            <td>{{alertLevel3Nm}}</td>
+            <td>{{alertLevel4}}</td>
+            <td>{{alertLevel4Nm}}</td>
+            <td>{{fludLevel}}</td>
+            <td>{{obsrTime}}</td>
+
+        </tr>
+    {{/bridge}}
+</table>
+</body>
+{{>layouts/footer}}
